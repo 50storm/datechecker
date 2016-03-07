@@ -98,6 +98,13 @@ function validateDateFromTo(dateFrom,  dateTo){
 		if(!validateMonthFromTo(objDateFrom.month, objDateTo.month )){
 			showMsg("#msg", "NG Month [From>To]",  "white",  "red");
 			return false;
+	
+		
+		}else{
+			if(!validateDayFromTo(objDateFrom.day, objDateTo.day )){
+				showMsg("#msg", "NG day [From>To]",  "white",  "red");
+				return false;
+			}
 		
 		}
 
@@ -133,10 +140,21 @@ function validateYearFromTo(dateFrom, dateTo, dateSwich  ){
 	}
 }
 
+
+
 function validateMonthFromTo(dateFrom, dateTo){
-	var monthFrom=[], monthTo=[];
-	monthFrom = dateFrom.split("/", 2);
-	monthTo   = dateTo.split("/", 2 );
+	// TODO:9999/99/99
+	dateFrom = parseInt(dateFrom, 10 ); 
+	dateTo = parseInt(dateTo, 10 ); 
+	
+	if(dateFrom  > dateTo ){
+			return false;
+		}else{
+			return true;
+	}
+	//var monthFrom=[], monthTo=[];
+	//monthFrom = dateFrom.split("/", 2);
+	//monthTo   = dateTo.split("/", 2 );
 	//1=>01 , 2=>02
 	//if(monthFrom[1].length==1){
 	//	monthFrom[1] = "0" + monthFrom[1];
@@ -146,23 +164,55 @@ function validateMonthFromTo(dateFrom, dateTo){
 	//	monthTo[1] = "0" + monthTo[1];
 	//}
 	
-	if(monthFrom[1] > monthTo[1]){
-		return false;
-	}else{
-		return true;
-	}
+//	var re = /^[0]/gi; 
+//	var found = dateFrom.match(re); 
+//	console.log(found);
+	//alert(found)
+	
+//	if (found===null){
+//		if(monthFrom[1] > monthTo[1]){
+//			return false;
+//		}else{
+//			return true;
+//		}
+//	}else{
+//		
+//		
+//	}
+//	alert(monthFrom[1]);
+//	alert(monthFrom[1], 10);
+//	monthFrom[1]=parseInt(monthFrom[1], 10);
+//	monthTo[1]=parseInt(monthTo[1], 10);
+//	
+//	
+//	if(monthFrom[1] > monthTo[1]){
+//			return false;
+//		}else{
+//			return true;
+//	}
 }
 
 function validateDayFromTo(dateFrom, dateTo){
-	var dayFrom=[], dayTo=[];
-	dayFrom = dateFrom.split("/", 3 );
-	dayTo   = dateTo.split("/", 3 );
+	// TODO:9999/99/99
+	dateFrom = parseInt(dateFrom, 10 ); 
+	dateTo = parseInt(dateTo, 10 ); 
 	
-	if(dayFrom[2] > dayTo[2]){
-		return false;
-	}else{
-		return true;
+	if(dateFrom  > dateTo ){
+			return false;
+		}else{
+			return true;
 	}
+
+
+	//var dayFrom=[], dayTo=[];
+	//dayFrom = dateFrom.split("/", 3 );
+	//dayTo   = dateTo.split("/", 3 );
+	//
+	//if(dayFrom[2] > dayTo[2]){
+	//	return false;
+	//}else{
+	//	return true;
+	//}
 }
 
 function isLeapYear(dateVal){
