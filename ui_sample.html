@@ -98,20 +98,16 @@ function validateDateFromTo(dateFrom,  dateTo){
 		if(!validateMonthFromTo(objDateFrom.month, objDateTo.month )){
 			showMsg("#msg", "NG Month [From>To]",  "white",  "red");
 			return false;
-	
 		
 		}else{
 			if(!validateDayFromTo(objDateFrom.day, objDateTo.day )){
 				showMsg("#msg", "NG day [From>To]",  "white",  "red");
 				return false;
+			}else{
+				return true;
 			}
 		
 		}
-
-		//console.log("Validation OK!");
-		//showMsg("#msg", "",  "white", "#006699" ,  "black");
-		//return true;
-	
 	}
 
 }
@@ -245,10 +241,6 @@ function isLeapYear(dateVal){
 	}else{
 		return false;	
 	}
-	
-	
-	
-
 }
 
 $(function() {
@@ -324,6 +316,7 @@ $(function() {
 		$(this).val("Submitted !");
 		$(this).css("background-color","#FFFF00");
 		$(this).prop("disabled", true);
+		showMsg("#msg", "サーバーへ送信しました！",  "white",  "red");
 		
 	});
  });
