@@ -12,6 +12,8 @@
 <title>datechecker(sample)</title>
 </head>
 <script>
+//http://semooh.jp/jquery/api/events/keydown/fn/
+//キーコード
 
 //http://www.dab.hi-ho.ne.jp/sasa/biboroku/javascript/prototype.html
 function PrtDate(){
@@ -272,7 +274,24 @@ $(function() {
 	//focusの初期設宁E
 	$("input[name=cmdFind]").focus();
 	
-	
+	$("input[name=txtShipFrom").keydown(function(e){
+		//$(this).val(e.keyCode);
+		//alert(e.keyCode)
+		//↑キー(38)で一週間分
+		
+		if (e.keyCode === 38){
+			var separator = "/";
+			var dateFromArr= [];
+			dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
+		
+		     alert(dateFromArr)
+		
+		}
+		
+		
+		return false;
+    });
+
 	$("input[name=txtShipFrom]").datepicker({
 		dateFormat: 'yy/mm/dd'
 	});
