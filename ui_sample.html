@@ -1,5 +1,5 @@
+<!DOCTYPE html>
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <base target=main>
@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 
 <title>datechecker(sample)</title>
-</head>
+
 <script>
 //http://semooh.jp/jquery/api/events/keydown/fn/
 //キーコード
@@ -217,18 +217,8 @@ function isLeapYear(dateVal){
 	var arrDate=[];
 	arrDate = dateVal.split("/", 3 );
 	dateVal = arrDate[2];
-	
-	//100で割り�Eる　かつ　400で割り�Eれる　=> Leap Year
-	
-	//
-	//4で割り�Eれる年は閏年である。ただぁE00で割り�Eれる年は閏年ではなぁE��ただぁE00で割り�Eれる年は閏年
-	//ただぁE00で割り�Eれる年は閏年ではなぁE��E
-	//ただぁE00で割り�Eれる年は閏年
 	if ( dateVal % 4 === 0){
-		//4で割り�Eれる
-		
 		if(dateVal % 100 === 0 ){
-		//100で割り�Eれる
 			return false;
 		}else{
 		
@@ -277,26 +267,68 @@ $(function() {
 	$("input[name=txtShipFrom").keydown(function(e){
 		//$(this).val(e.keyCode);
 		//alert(e.keyCode)
+		//TODO
+		//if(event.ctrlKey){
+		//	if(e.keyCode === 13){
+		//		alert("ctrl+enter");
+		//	return false;
+		//	}
+		//}
+		//http://qiita.com/n0bisuke/items/8b2b0c700c8f5f5a4043
+		if(event.ctrlKey){
+			if(e.keyCode === 81){
+			var separator = "/";
+			var dateFromArr= [];
+			dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
+			console.log(dateFromArr);
+			var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
+		    // alert(dateFromArr)
+			console.log(objDate.getFullYear());
+			console.log(objDate.getMonth());
+			console.log(objDate.getDate());
+			objDate.setDate(objDate.getDate() + 7);
+			console.log(objDate.getFullYear());
+			console.log(objDate.getMonth());
+			console.log(objDate.getDate());
+			$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
+				
+			}
+		}
+		
 		//↑キー(38)で一週間分
 		
 		if (e.keyCode === 38){
 			var separator = "/";
 			var dateFromArr= [];
 			dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
-		
-		     alert(dateFromArr)
-		
+			console.log(dateFromArr);
+			var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
+		    // alert(dateFromArr)
+			console.log(objDate.getFullYear());
+			console.log(objDate.getMonth());
+			console.log(objDate.getDate());
+			objDate.setDate(objDate.getDate() + 7);
+			console.log(objDate.getFullYear());
+			console.log(objDate.getMonth());
+			console.log(objDate.getDate());
+			$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
+			
+			
 		}
-		
-		
-		return false;
     });
 
 	$("input[name=txtShipFrom]").datepicker({
-		dateFormat: 'yy/mm/dd'
+		dateFormat: 'yy/mm/dd',
+		showOn: "button",
+        buttonImage: "img/calendar_button.png",
+        buttonImageOnly: true
 	});
 	$("input[name=txtShipTo]").datepicker({
-		dateFormat: 'yy/mm/dd'
+		dateFormat: 'yy/mm/dd',
+		showOn: "button",
+        buttonImage: "img/calendar_button.png",
+        buttonImageOnly: true
+		
 	});
 	$("input[name=cmdFind]").on('click', function(){
 		//validation
@@ -360,13 +392,9 @@ $(function() {
 		background-color:#006699
 	}
 </style>
+</head>
 <body class="body-background-color">
-
-<form method=GET action="make_qc_qty_insreports.cgi">
-
-<!--
 <form method=GET action="">
--->
 
 	<h3 class="fontcolor center">Validation Sample For Date</h3>
 	<p  class="fontcolor center"></p>
