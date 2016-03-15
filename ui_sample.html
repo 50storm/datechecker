@@ -14,6 +14,7 @@
 <script>
 //http://semooh.jp/jquery/api/events/keydown/fn/
 //キーコード
+//
 
 //http://www.dab.hi-ho.ne.jp/sasa/biboroku/javascript/prototype.html
 function PrtDate(){
@@ -41,12 +42,16 @@ function IsDateType(dateVal){
 	return validatePattern.test(dateVal);//True or False
 }
 
+
+
 function getCurrentDate(){
-	now = new Date();
-	y = now.getFullYear();
-	m = now.getMonth() + 1;
-	d = now.getDate();
-	return (y + '/' + m + '/' + d);
+	var now = new Date();
+	//y = now.getFullYear();
+	var m = now.getMonth() + 1;
+	//d = now.getDate();
+	m = (m.length === 1)  ? "0"+String(m) : String(m);  //TODO
+
+	return (now.getFullYear() + '/' + "0"+String(m) + '/' + now.getDate());
 }
 
 function splitString (stringToSplit, separator) {
@@ -235,6 +240,22 @@ function isLeapYear(dateVal){
 	}
 }
 
+function addDate( year, month, date , gap ){
+	gap = typeof gap == 'undefined' ?  0 : gap; 
+
+	var objDate = new Date(year, month, date);
+	// alert(dateFromArr)
+	console.log(objDate.getFullYear());
+	console.log(objDate.getMonth());
+	console.log(objDate.getDate());
+	objDate.setDate(objDate.getDate() + gap*1);
+	console.log(objDate.getFullYear());
+	console.log(objDate.getMonth());
+	console.log(objDate.getDate());
+	return ( objDate.getFullYear() + "/" + "0" + objDate.getMonth() + "/" + objDate.getDate() );
+	
+
+}
 $(function() {
 	
 	var objFromDate = new PrtDate();
@@ -274,47 +295,85 @@ $(function() {
 		//	return false;
 		//	}
 		//}
+		// TODO
 		//http://qiita.com/n0bisuke/items/8b2b0c700c8f5f5a4043
 		if(event.ctrlKey){
 			if(e.keyCode === 81){
-			var separator = "/";
-			var dateFromArr= [];
-			dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
-			console.log(dateFromArr);
-			var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
-		    // alert(dateFromArr)
-			console.log(objDate.getFullYear());
-			console.log(objDate.getMonth());
-			console.log(objDate.getDate());
-			objDate.setDate(objDate.getDate() + 7);
-			console.log(objDate.getFullYear());
-			console.log(objDate.getMonth());
-			console.log(objDate.getDate());
-			$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
+				var separator = "/";
+				var dateFromArr= [];
 				
+				var dateFrom = $("input[name=txtShipFrom]").val();
+				
+				
+	
+				// 区切も文字を含んでるか？
+				var re = /\//i;
+				//console.log(dateFrom.match(re));//null
+				//alert(dateFrom.match(re));//null
+				
+				if ( dateFrom.match(re) === null){
+					//alert('なし')
+					//split->連結
+					dateFromArr = splitString(dateFrom, separator);
+					//数字チェック And Lenghtチェック
+					if($.isNumeric(dateFromArr) && dateFromArr.length === 8 ) 
+					{					
+						//文字列を固定で抜き出す
+						var DateFromYear, DateFromMonth, DateFromDate;
+						DateFromYear = dateFrom.substring(0, 4);
+						DateFromMonth = dateFrom.substring(5, 2);
+						DateFromDate = dateFrom.substring(7, 2);
+						//計算
+					
+					
+					}
+
+					
+			    
+				}else{
+					dateFromArr = splitString(dateFrom, separator);
+					console.log(dateFromArr);
+					
+					
+					//var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
+					//// alert(dateFromArr)
+					//console.log(objDate.getFullYear());
+					//console.log(objDate.getMonth());
+					//console.log(objDate.getDate());
+					//objDate.setDate(objDate.getDate() + 7);
+					//console.log(objDate.getFullYear());
+					//console.log(objDate.getMonth());
+					//console.log(objDate.getDate());
+					//$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
+				    //$("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2], 7));
+				    $("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2]));
+				
+				}
+				
+	
 			}
 		}
 		
 		//↑キー(38)で一週間分
 		
-		if (e.keyCode === 38){
-			var separator = "/";
-			var dateFromArr= [];
-			dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
-			console.log(dateFromArr);
-			var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
-		    // alert(dateFromArr)
-			console.log(objDate.getFullYear());
-			console.log(objDate.getMonth());
-			console.log(objDate.getDate());
-			objDate.setDate(objDate.getDate() + 7);
-			console.log(objDate.getFullYear());
-			console.log(objDate.getMonth());
-			console.log(objDate.getDate());
-			$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
-			
-			
-		}
+		//if (e.keyCode === 38){
+		//	var separator = "/";
+		//	var dateFromArr= [];
+		//	dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
+		//	console.log(dateFromArr);
+		//	var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
+		//    // alert(dateFromArr)
+		//	console.log(objDate.getFullYear());
+		//	console.log(objDate.getMonth());
+		//	console.log(objDate.getDate());
+		//	objDate.setDate(objDate.getDate() + 7);
+		//	console.log(objDate.getFullYear());
+		//	console.log(objDate.getMonth());
+		//	console.log(objDate.getDate());
+		//	$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
+		//	
+		//	
+		//}
     });
 
 	$("input[name=txtShipFrom]").datepicker({
