@@ -12,6 +12,10 @@
 <title>datechecker(sample)</title>
 
 <script>
+//気を付けること
+//グローバル汚染対策
+//http://qiita.com/KENJU/items/c7fad62a12cc2809b507
+
 //http://semooh.jp/jquery/api/events/keydown/fn/
 //キーコード
 //
@@ -46,12 +50,9 @@ function IsDateType(dateVal){
 
 function getCurrentDate(){
 	var now = new Date();
-	//y = now.getFullYear();
 	var m = now.getMonth() + 1;
-	//d = now.getDate();
-	m = (m.length === 1)  ? "0"+String(m) : String(m);  //TODO
-
-	return (now.getFullYear() + '/' + "0"+String(m) + '/' + now.getDate());
+	var m = (  m  >= 1 && m <= 9   )  ?  "0"+String(m) : String(m);  //TODO    
+	return (now.getFullYear() + '/' + m + '/' + now.getDate());
 }
 
 function splitString (stringToSplit, separator) {
