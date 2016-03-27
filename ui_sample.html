@@ -2,34 +2,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<base target=main>
-
 <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-
 <title>datechecker(sample)</title>
-
 <script>
 //気を付けること
 //グローバル汚染対策
 //http://qiita.com/KENJU/items/c7fad62a12cc2809b507
-
 //http://semooh.jp/jquery/api/events/keydown/fn/
 //キーコード
-//
-
 //http://www.dab.hi-ho.ne.jp/sasa/biboroku/javascript/prototype.html
-function PrtDate(){
-	this.year;
-	this.month;
-	this.day;
-};
-PrtDate.prototype.show = function(){
-	alert("year:" + this.year + "month:" + this.month + "day:" + this.day);
+//function PrtDate(){
+//	this.year;
+//	this.month;
+//	this.day;
+//};
+//PrtDate.prototype.show = function(){
+//	alert("year:" + this.year + "month:" + this.month + "day:" + this.day);
 	
-}
+//}
 //function PrtDate(){
 //	PrtDate.prototype.year;
 //	PrtDate.prototype.month;
@@ -45,8 +38,6 @@ function IsDateType(dateVal){
 	var validatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;
 	return validatePattern.test(dateVal);//True or False
 }
-
-
 
 function getCurrentDate(){
 	var now = new Date();
@@ -84,10 +75,7 @@ function validateDateFromTo(dateFrom,  dateTo){
 	for (var i= 0; i < dateToArr.length ; i++){
 		console.log(dateToArr[i]);
 	}
-	
-	//dateFromArr = dateFrom.split("/", 3);
-	//dateToArr   = dateTo.split("/", 3);
-	
+			
 	var objDateFrom   = {};
 	objDateFrom.year  = dateFromArr[0] ;
 	objDateFrom.month = dateFromArr[1] ;
@@ -97,127 +85,36 @@ function validateDateFromTo(dateFrom,  dateTo){
 	objDateTo.year  = dateToArr[0] ;
 	objDateTo.month = dateToArr[1] ;
 	objDateTo.day   = dateToArr[2] ;
-
-	if(!validateYearFromTo(objDateFrom.year, objDateTo.year)){
-		showMsg("#msg", "NG Year [From>To]",  "white",  "red");
-		return false;
-				
-	}else{
-		if(!validateMonthFromTo(objDateFrom.month, objDateTo.month )){
-			showMsg("#msg", "NG Month [From>To]",  "white",  "red");
-			return false;
-		
-		}else{
-			if(!validateDayFromTo(objDateFrom.day, objDateTo.day )){
-				showMsg("#msg", "NG day [From>To]",  "white",  "red");
-				return false;
-			}else{
-				return true;
-			}
-		
-		}
-	}
-
+    
+    if( int(objDateFrom.year) > int(objDateTo.year) ){
+        showMsg("#msg", "Error Year [From>To]",  "white",  "red");
+        return false;
+    }
+    if( int(objDateFrom.year) === int(objDateTo.year) ){
+        if( int(objDateFrom.month) > int(objDateTo.month) ){
+            showMsg("#msg", "Error Month [From>To]",  "white",  "red");
+            return false;
+        }
+    }
+    
+    if( int(objDateFrom.year) === int(objDateTo.year) ){
+        if( int(objDateFrom.month) === int(objDateTo.month) ){
+            if( int(objDateFrom.day) > int(objDateTo.day) ){
+                showMsg("#msg", "Error Day [From>To]",  "white",  "red");
+                return false;
+            }
+                
+        }    
+    }
+    showMsg("#msg", "日付チェックOK",  "white",  "red");   
+    return true;
+    
 }
 
-
-function validateYearFromTo(dateFrom, dateTo, dateSwich  ){
-	var yearFrom, yearTo;
-	var dateFromArr, dateToArr;
-	dateSwich = typeof dateSwich == 'undefined' ?  false : dateSwich; 
-	 
-	
-	if(dateSwich === true){
-	// 9999/99/99縺�E�繧呈Φ螳・
-		yearFrom = dateFrom.s(0,4);
-		yearTo   = dateTo.substr(0,4);
-	}else{
-	//9999繧呈Φ螳・
-		yearFrom = dateFrom;
-		yearTo   = dateTo;
-	}
-	
-	if(yearFrom > yearTo){
-		return false;
-	}else{
-		return true;
-	}
+function int(val){
+    return parseInt(val, 10);
 }
 
-
-
-function validateMonthFromTo(dateFrom, dateTo){
-	// TODO:9999/99/99
-	dateFrom = parseInt(dateFrom, 10 ); 
-	dateTo = parseInt(dateTo, 10 ); 
-	
-	if(dateFrom  > dateTo ){
-			return false;
-		}else{
-			return true;
-	}
-	//var monthFrom=[], monthTo=[];
-	//monthFrom = dateFrom.split("/", 2);
-	//monthTo   = dateTo.split("/", 2 );
-	//1=>01 , 2=>02
-	//if(monthFrom[1].length==1){
-	//	monthFrom[1] = "0" + monthFrom[1];
-	//}
-	//
-	//if(monthTo[1].length==1){
-	//	monthTo[1] = "0" + monthTo[1];
-	//}
-	
-//	var re = /^[0]/gi; 
-//	var found = dateFrom.match(re); 
-//	console.log(found);
-	//alert(found)
-	
-//	if (found===null){
-//		if(monthFrom[1] > monthTo[1]){
-//			return false;
-//		}else{
-//			return true;
-//		}
-//	}else{
-//		
-//		
-//	}
-//	alert(monthFrom[1]);
-//	alert(monthFrom[1], 10);
-//	monthFrom[1]=parseInt(monthFrom[1], 10);
-//	monthTo[1]=parseInt(monthTo[1], 10);
-//	
-//	
-//	if(monthFrom[1] > monthTo[1]){
-//			return false;
-//		}else{
-//			return true;
-//	}
-}
-
-function validateDayFromTo(dateFrom, dateTo){
-	// TODO:9999/99/99
-	dateFrom = parseInt(dateFrom, 10 ); 
-	dateTo = parseInt(dateTo, 10 ); 
-	
-	if(dateFrom  > dateTo ){
-			return false;
-		}else{
-			return true;
-	}
-
-
-	//var dayFrom=[], dayTo=[];
-	//dayFrom = dateFrom.split("/", 3 );
-	//dayTo   = dateTo.split("/", 3 );
-	//
-	//if(dayFrom[2] > dayTo[2]){
-	//	return false;
-	//}else{
-	//	return true;
-	//}
-}
 
 function isLeapYear(dateVal){
 	var arrDate=[];
@@ -258,63 +155,36 @@ function addDate( year, month, date , gap ){
 
 }
 $(function() {
-	
-	var objFromDate = new PrtDate();
-	var objToDate = new PrtDate();
-	
-	//var objFromDate = new PrtDate();
-	//var objToDate = new PrtDate();
-	//
-	//var arr = [];
-	//arr = getCurrentDate().split("/",3);
-	//objFromDate.year  = arr[0];
-	//objFromDate.month = arr[1];
-	//objFromDate.day   = arr[2];
-	//objFromDate.show();
-    //
-    //
-	//objToDate.year  = "2013";
-	//objToDate.month = "1";
-	//objToDate.day   = "12";
-	//objToDate.show();
-
-	//HTMLの初期値を設宁E
-	//alert(getCurrentDate());
+	$(".input-date").tooltip(
+        {
+            position:{
+                my: "left top",
+                at: "right-130 top-50"
+                }
+        }
+    );
+    
 	$("input[name=txtShipFrom]").val(getCurrentDate());
 	$("input[name=txtShipTo]").val(getCurrentDate());
 	$("select[name=cmbYear]").val("2016");
-	//focusの初期設宁E
 	$("input[name=cmdFind]").focus();
 	
 	$("input[name=txtShipFrom").keydown(function(e){
-		//$(this).val(e.keyCode);
 		//alert(e.keyCode)
-		//TODO
-		//if(event.ctrlKey){
-		//	if(e.keyCode === 13){
-		//		alert("ctrl+enter");
-		//	return false;
-		//	}
-		//}
 		// TODO
 		//http://qiita.com/n0bisuke/items/8b2b0c700c8f5f5a4043
-		if(event.ctrlKey){
+		//if(event.ctrlKey){
 			if(e.keyCode === 81){
 				var separator = "/";
 				var dateFromArr= [];
-				
 				var dateFrom = $("input[name=txtShipFrom]").val();
 				
-				
-	
 				// 区切も文字を含んでるか？
 				var re = /\//i;
 				//console.log(dateFrom.match(re));//null
 				//alert(dateFrom.match(re));//null
-				
 				if ( dateFrom.match(re) === null){
-					//alert('なし')
-					//split->連結
+                    //TODO in the middle of changing code below
 					dateFromArr = splitString(dateFrom, separator);
 					//数字チェック And Lenghtチェック
 					if($.isNumeric(dateFromArr) && dateFromArr.length === 8 ) 
@@ -325,55 +195,18 @@ $(function() {
 						DateFromMonth = dateFrom.substring(5, 2);
 						DateFromDate = dateFrom.substring(7, 2);
 						//計算
-					
-					
-					}
-
-					
-			    
+                        $("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2], 7));				
+				    		
+					}else{
+                        return false;
+                    }
+	    
 				}else{
 					dateFromArr = splitString(dateFrom, separator);
-					console.log(dateFromArr);
-					
-					
-					//var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
-					//// alert(dateFromArr)
-					//console.log(objDate.getFullYear());
-					//console.log(objDate.getMonth());
-					//console.log(objDate.getDate());
-					//objDate.setDate(objDate.getDate() + 7);
-					//console.log(objDate.getFullYear());
-					//console.log(objDate.getMonth());
-					//console.log(objDate.getDate());
-					//$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
-				    //$("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2], 7));
-				    $("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2]));
-				
+					console.log(dateFromArr);			
+				    $("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2], 7));				
 				}
-				
-	
 			}
-		}
-		
-		//↑キー(38)で一週間分
-		
-		//if (e.keyCode === 38){
-		//	var separator = "/";
-		//	var dateFromArr= [];
-		//	dateFromArr = splitString($("input[name=txtShipFrom]").val(), separator);
-		//	console.log(dateFromArr);
-		//	var objDate = new Date(dateFromArr[0], dateFromArr[1], dateFromArr[2]);
-		//    // alert(dateFromArr)
-		//	console.log(objDate.getFullYear());
-		//	console.log(objDate.getMonth());
-		//	console.log(objDate.getDate());
-		//	objDate.setDate(objDate.getDate() + 7);
-		//	console.log(objDate.getFullYear());
-		//	console.log(objDate.getMonth());
-		//	console.log(objDate.getDate());
-		//	$("input[name=txtShipTo]").val(objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate());
-		//	
-		//	
 		//}
     });
 
@@ -393,18 +226,10 @@ $(function() {
 	$("input[name=cmdFind]").on('click', function(){
 		//validation
 		//http://webrewrite.com/validate-date-format-yyyymmdd-javascript/
-		
-		//validation
-		//YearFrom
 		var dateFrom = $("input[name=txtShipFrom]").val();
 		var dateTo = $("input[name=txtShipTo]").val();
-		
 		if(!validateDateFromTo( dateFrom , dateTo)){
-			//alert("NG")
 			return false;
-		}else{
-			//alert("ok")
-		
 		}
 
 //
@@ -422,13 +247,13 @@ $(function() {
 //			alert("Leap Year")
 //		}		
 //		
-		
 		//Ok
 		$(this).val("Submitted !");
 		$(this).css("background-color","#FFFF00");
-		$(this).prop("disabled", true);
+		//$(this).prop("disabled", true);
 		showMsg("#msg", "サーバーへ送信しました！",  "white",  "red");
-		
+        
+    		
 	});
  });
  
@@ -454,16 +279,21 @@ $(function() {
 </style>
 </head>
 <body class="body-background-color">
-<form method=GET action="">
+<form method="GET" action="">
 
 	<h3 class="fontcolor center">Validation Sample For Date</h3>
 	<p  class="fontcolor center"></p>
     <p  class="fontcolor center">
-		<input type=text name=txtShipFrom size=20><br>
-		(From)2004/01/01
+		<input type="text"" name="txtShipFrom"" size="20" title="日付From(Qキーで1週間分)" class="input-date" />
+        <!--
+        <br>(From)2004/01/01
+        -->
 	</p>      
-    <p  class="fontcolor center"><input type=text name=txtShipTo size=20>
+    <p  class="fontcolor center">
+        <input type="text" name="txtShipTo"" size="20"  title="日付To" class="input-date" />
+        <!--
 		<br>(To)2004/01/01
+        -->
 	</p>     
     <p  class="center" >
 	<select size="1" name="cmbYear">
@@ -515,8 +345,10 @@ $(function() {
     <p><font color="#FFFFFF">Mail</font></p>
     <p align="center"><input type="text" name="txtMail" size="20"></p>
 	-->
-	<p align=center><input type=submit value=OK name=cmdFind>
-	<div id="msg">
+	<p align="center">
+        <input type="button" value="OK" name="cmdFind">
+	</p>
+    <div id="msg">
 	</div>
 </form>
 </body>
