@@ -141,7 +141,7 @@ function isLeapYear(dateVal){
 function addDate( year, month, date , gap ){
 	gap = typeof gap == 'undefined' ?  0 : gap; 
 
-	var objDate = new Date(year, month, date);
+	var objDate = new Date(int(year), int(month), int(date));
 	// alert(dateFromArr)
 	console.log(objDate.getFullYear());
 	console.log(objDate.getMonth());
@@ -150,9 +150,11 @@ function addDate( year, month, date , gap ){
 	console.log(objDate.getFullYear());
 	console.log(objDate.getMonth());
 	console.log(objDate.getDate());
-	return ( objDate.getFullYear() + "/" + "0" + objDate.getMonth() + "/" + objDate.getDate() );
-	
-
+	//TODO
+	//0付与
+	//var m = (  int(month)  >= 1 && int(month) <= 9   )  ?  "0"+String(int(month)) : String(int(month));  //TODO    
+	//return ( objDate.getFullYear() + "/" + "0" + objDate.getMonth() + "/" + objDate.getDate() );
+	return ( objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate() );
 }
 $(function() {
 	$(".input-date").tooltip(
@@ -185,16 +187,20 @@ $(function() {
 				//alert(dateFrom.match(re));//null
 				if ( dateFrom.match(re) === null){
                     //TODO in the middle of changing code below
-					dateFromArr = splitString(dateFrom, separator);
+					//dateFromArr = splitString(dateFrom, separator);
 					//数字チェック And Lenghtチェック
-					if($.isNumeric(dateFromArr) && dateFromArr.length === 8 ) 
+					//TODO:正規表現化が楽かもね
+					alert(dateFrom.toString().length);
+					if($.isNumeric(dateFrom) && dateFrom.toString().length === 8 ) 
 					{					
 						//文字列を固定で抜き出す
 						var DateFromYear, DateFromMonth, DateFromDate;
-						DateFromYear = dateFrom.substring(0, 4);
-						DateFromMonth = dateFrom.substring(5, 2);
-						DateFromDate = dateFrom.substring(7, 2);
+						dateFromArr[0] = dateFrom.substring(0, 4);
+						dateFromArr[1] = dateFrom.substring(4, 6);
+						dateFromArr[2] = dateFrom.substring(6, 8);
+						alert(dateFromArr);
 						//計算
+						
                         $("input[name=txtShipTo]").val(addDate(dateFromArr[0], dateFromArr[1], dateFromArr[2], 7));				
 				    		
 					}else{
