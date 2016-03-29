@@ -157,20 +157,46 @@ function addDate( year, month, date , gap ){
 	return ( objDate.getFullYear() + "/" + objDate.getMonth() + "/" + objDate.getDate() );
 }
 $(function() {
-	$(".input-date").tooltip(
+
+	$(".tooltip-date-from").tooltip(
         {
             position:{
+				of: $("input[name=txtShipFrom]"),
                 my: "left top",
-                at: "right-130 top-50"
+				at: "right-155 top-45"
+               //my: "top right",
+                //at: "right-130 top-50"
+
+				
                 }
         }
     );
-    
+//	$(".tooltip-date-to").tooltip(
+//        {
+//            position:{
+//				of: $("input[name=txtShipTo]"),
+//                my: "left top",
+//				at: "right-155 top-45"
+//               //my: "top right",
+//                //at: "right-130 top-50"
+//
+//				
+//                }
+//        }
+//    );
+//	$(".input-submit").tooltip(
+//        { of : 'input[name=cmdFind]',
+//          at: 'center bottom',
+//          my: 'left top'
+//        }
+//    );
+        
 	$("input[name=txtShipFrom]").val(getCurrentDate());
 	$("input[name=txtShipTo]").val(getCurrentDate());
 	$("select[name=cmbYear]").val("2016");
-	$("input[name=cmdFind]").focus();
-	
+	//$("input[name=cmdFind]").focus();
+	$("input[name=txtShipFrom]").focus();
+	$("input[name=txtShipFrom]").select();
 	$("input[name=txtShipFrom").keydown(function(e){
 		//alert(e.keyCode)
 		// TODO
@@ -190,7 +216,27 @@ $(function() {
 					//dateFromArr = splitString(dateFrom, separator);
 					//数字チェック And Lenghtチェック
 					//TODO:正規表現化が楽かもね
-					alert(dateFrom.toString().length);
+					//alert(dateFrom.toString().length);
+					//var re = new RegExp("\d{8}", "ig");
+					
+					
+					var re = /^\d{8}$/ig;//数字8桁
+					//var re = /^\d{6}$/ig;//数字6桁
+					//var re = /^\d{6,8}$/ig;//数字6-8桁
+					if(re.test(dateFrom)){
+						alert("true");
+						//
+						var results = dateFrom.match(re);
+						alert( "results" + results); 
+								
+					}else{
+						alert("9999/99/99か、数字8桁で入力");
+						//TODO:とりあえず
+						$("input[name=txtShipFrom]").val(getCurrentDate());
+						$("input[name=txtShipTo]").val(getCurrentDate());
+					
+					}
+					
 					if($.isNumeric(dateFrom) && dateFrom.toString().length === 8 ) 
 					{					
 						//文字列を固定で抜き出す
@@ -282,6 +328,7 @@ $(function() {
 	.body-background-color{
 		background-color:#006699
 	}
+
 </style>
 </head>
 <body class="body-background-color">
@@ -290,13 +337,13 @@ $(function() {
 	<h3 class="fontcolor center">Validation Sample For Date</h3>
 	<p  class="fontcolor center"></p>
     <p  class="fontcolor center">
-		<input type="text"" name="txtShipFrom"" size="20" title="日付From(Qキーで1週間分)" class="input-date" />
+		<input type="text"" name="txtShipFrom"" size="20" title="Qキーで+7日" class="tooltip-date-from" />
         <!--
         <br>(From)2004/01/01
         -->
 	</p>      
     <p  class="fontcolor center">
-        <input type="text" name="txtShipTo"" size="20"  title="日付To" class="input-date" />
+        <input type="text" name="txtShipTo"" size="20"  title="日付To" class="tooltip-date-to" />
         <!--
 		<br>(To)2004/01/01
         -->
@@ -352,7 +399,7 @@ $(function() {
     <p align="center"><input type="text" name="txtMail" size="20"></p>
 	-->
 	<p align="center">
-        <input type="button" value="OK" name="cmdFind">
+        <input type="button" value="OK" name="cmdFind" class="input-submit" title="">
 	</p>
     <div id="msg">
 	</div>
